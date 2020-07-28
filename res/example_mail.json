@@ -1,0 +1,13 @@
+{
+    "address": "some.one@mail.ch",
+    "login": "some.one",
+    "pw": "f00b4r",
+    "inbox_folder_name": "INBOX",
+    "host_smtp": "127.0.0.1",
+    "port_smtp": "5018",
+    "secure_smtp": true,
+    "host_imap": "127.0.0.1",
+    "port_imap": "5020",
+    "secure_imap": true,
+    "trust_all_certs": false
+}

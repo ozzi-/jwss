@@ -1,0 +1,13 @@
+{
+  "baseURL": "http://127.0.0.1:8080/jwss/",
+  "dbDriver": "com.mysql.cj.jdbc.Driver",
+  "dbURL": "jdbc:mysql://localhost:3306/jwss?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Europe/Zurich&autoReconnect=true&autoReconnetForPools=true",
+  "dbName": "jwss",
+  "dbUser": "jwss",
+  "dbPW": "f00bar",
+  "dbPoolSize": 10,
+  "dbBackupIntervalInMinutes": 720,
+  "dbBackupDumpBinary": "C:\\Program Files\\MySQL\\MySQL Server 8.0\\bin\\mysqldump.exe",
+  "dbBackupKeepForXDays": 20,
+  "uidHeaderName": "X-LOGIN-NAME"
+}
