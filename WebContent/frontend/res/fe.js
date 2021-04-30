@@ -2,6 +2,10 @@
 
 var authHeaderName = "X-LOGIN-NAME";
 
+// prevent bug of JS not running on page back, thus no XHR triggered and "stale" data shown
+// https://stackoverflow.com/questions/2638292/after-travelling-back-in-firefox-history-javascript-wont-run
+window.onunload = function(){}; 
+
 window.onerror = function(msg, url, line, col, error) {
 	showAlert("Something went wrong","\""+error+"\"","error");
 };
