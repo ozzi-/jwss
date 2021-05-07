@@ -152,10 +152,7 @@ function doRequestBodyInternal(method,data,type,url,callback,params){
 			} else if(request.status==0){
 				openRequests--;
 				killLoaderIfNoRequestsOpen();
-				if(!window.errorReported){
-					window.errorReported=true;
-					showAlert("Something went wrong","The request for " + url + " timed out. Please try again","error");
-				}
+				// request was interrupted
 			}else{
 				try { 
 					response = JSON.parse(request.responseText);
@@ -187,6 +184,15 @@ function doRequestBodyInternal(method,data,type,url,callback,params){
 	}
 	request.open(method, url);
 	request.timeout = timeout;
+	request.ontimeout = function (e) {
+		killLoaderIfNoRequestsOpen();
+		if(!window.errorReported){
+			window.errorReported=true;
+			showAlert("Something went wrong","The request for " + url + " timed out. Please try again.","error");
+		}
+	};
+	
+	
 	if(type!==null){
 		request.setRequestHeader("Content-Type", type);		
 	}
