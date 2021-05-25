@@ -64,24 +64,21 @@ public class DB {
 		if (resultSet == null) {
 			return 0;
 		}
+		int rowCount=0;
 		try {
-			resultSet.last();
-			return resultSet.getRow();
-		} catch (SQLException exp) {
-			exp.printStackTrace();
-		} finally {
-			try {
-				resultSet.beforeFirst();
-			} catch (SQLException exp) {
-				exp.printStackTrace();
+			while(resultSet.next()) {
+				rowCount++;
 			}
+			resultSet.beforeFirst();
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
-		return 0;
+		return rowCount;
 	}
 
 	public static RS doSelect(String query, Vals vals) throws SQLException {
 		Connection con = getDataSource().getConnection();
-		PreparedStatement stmt = con.prepareStatement(query);
+		PreparedStatement stmt = con.prepareStatement(query,  ResultSet.TYPE_SCROLL_SENSITIVE);
 		bindStatementParams(vals.getVals(), stmt);
 		ResultSet rs = stmt.executeQuery();
 		
@@ -133,7 +130,7 @@ public class DB {
 
 	public static int doUpdate(String query, Vals vals) throws SQLException {
 		Connection con = getDataSource().getConnection();
-		PreparedStatement stmt = con.prepareStatement(query);
+		PreparedStatement stmt = con.prepareStatement(query,  ResultSet.TYPE_SCROLL_SENSITIVE);
 		bindStatementParams(vals.getVals(), stmt);
 		int i = stmt.executeUpdate();
 		stmt.close();
