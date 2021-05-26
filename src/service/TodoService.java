@@ -27,7 +27,7 @@ import pojo.Vals;
 public class TodoService {
 
 	@Authenticate
-    @DoLog
+	@DoLog
 	@GET
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response getTodos(@Context HttpHeaders headers) throws Exception {
@@ -51,7 +51,7 @@ public class TodoService {
 	}
 	
 	@Authenticate
-    @DoLog	
+	@DoLog	
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response createTodo(@Context HttpHeaders headers, String body) throws Exception {		
@@ -65,7 +65,7 @@ public class TodoService {
 	}
 	
 	@Authenticate
-    @DoLog
+	@DoLog
 	@PUT
 	@Path("/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -86,6 +86,27 @@ public class TodoService {
 		Vals vals = new Vals().addVal(id);
 		int s = DB.doUpdate("DELETE FROM todo WHERE id = ?;", vals);
 		return Response.status(200).entity("{\"res\":"+s+"}").type("application/json").build();
+	}
+	
+	@GET
+	@Path("/intensivecall")
+	// this will demonstrate the concept of long running calls
+	public Response getCountByDay() throws Exception {
+		UUID uuid = UUID.randomUUID();
+		String longRunningTaskID = uuid.toString();
+		JsonObject jo = new JsonObject();
+		jo.addProperty("longRunningTaskID",longRunningTaskID);
+		LongRunningTaskRegistry.registerTask(longRunningTaskID);
+		
+		new Thread(
+			new Runnable() {
+				public void run() {
+					// do something very time consuming 
+					LongRunningTaskRegistry.completeTask(longRunningTaskID, result.toString());
+				}
+			}
+		).start();
+		return Response.status(200).entity(jo.toString()).type(MediaType.APPLICATION_JSON).build();
 	}
 	
 }
