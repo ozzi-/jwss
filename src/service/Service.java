@@ -53,8 +53,8 @@ public class Service extends ResourceConfig implements ContainerLifecycleListene
 	    Scheduler.schedule();
 	}
 	
-    @Authenticate
-    @DoLog
+	@Authenticate
+	@DoLog
 	@GET
 	@Path("/whoami")
 	public Response getMyself(@Context HttpHeaders headers) throws Exception {
@@ -64,5 +64,14 @@ public class Service extends ResourceConfig implements ContainerLifecycleListene
 		return Response.status(200).entity(jsonObj.toString()).type("application/json").build();
 	}
     
+	@GET
+	@Path("/longrunning/{id}")
+	public Response getCountByDay(@PathParam("id") String id) throws Exception {
+		LongRunningTaskResult lrtr = LongRunningTaskRegistry.getTaskResult(id);
+		if(lrtr.isDone()) {
+			LongRunningTaskRegistry.removeTask(id);			
+		}
+		return Response.status(200).entity(lrtr.toJsonString()).type(MediaType.APPLICATION_JSON).build(); 
+	}
 
 }
