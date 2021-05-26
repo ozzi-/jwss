@@ -66,7 +66,7 @@ public class Service extends ResourceConfig implements ContainerLifecycleListene
     
 	@GET
 	@Path("/longrunning/{id}")
-	public Response getCountByDay(@PathParam("id") String id) throws Exception {
+	public Response getLongRunningResult(@PathParam("id") String id) throws Exception {
 		LongRunningTaskResult lrtr = LongRunningTaskRegistry.getTaskResult(id);
 		if(lrtr.isDone()) {
 			LongRunningTaskRegistry.removeTask(id);			
