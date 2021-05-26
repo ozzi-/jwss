@@ -101,8 +101,13 @@ public class TodoService {
 		new Thread(
 			new Runnable() {
 				public void run() {
-					// do something very time consuming 
-					LongRunningTaskRegistry.completeTask(longRunningTaskID, result.toString());
+					try{
+						// do something very time consuming 
+						LongRunningTaskRegistry.completeTask(longRunningTaskID, result.toString());
+					} catch (Exception e) {
+						e.printStackTrace();
+						LongRunningTaskRegistry.completeTask(longRunningTaskID,e);
+					}
 				}
 			}
 		).start();
