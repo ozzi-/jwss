@@ -16,6 +16,10 @@ public class Scheduler   {
 	}
 
 	public static void schedule() {
+		
+		LongRunningTaskRegistry.scheduleCleanup();
+
+		
 		Runnable task = () -> {
 			// Example Scheduler Task
 		};
