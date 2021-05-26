@@ -9,6 +9,10 @@ function pageLogic (response){
 		var id = getQueryParams(document.location.search).id;
 		doRequest("GET", "../todo/"+id, showTodo);
 	}
+	// example of long running call
+	if(page=="longrunning"){
+		doRequest("GET", "../todo/intensivecall", waitForLongRunning,[showLongRunning]);
+	}
 }
 
 function listTodos(todos){
