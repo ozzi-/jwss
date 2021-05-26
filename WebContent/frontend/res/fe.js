@@ -75,7 +75,11 @@ function checkIfLongRunningIsDone(data,toCallWhenDone,longRunningInterval){
 	if(data.done){
 		killLoader();
 		clearInterval(longRunningInterval);
-		toCallWhenDone(JSON.parse(data.result));
+		if(data.error !== undefined){
+			showAlert("Something went wrong",data.error,"error");
+		}else{
+			toCallWhenDone(JSON.parse(data.result));			
+		}
 	}
 }
 
