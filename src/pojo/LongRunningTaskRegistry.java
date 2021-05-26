@@ -37,6 +37,14 @@ public class LongRunningTaskRegistry {
     	lrtr.setJsonResult(jsonResult);
     	longRunningTaskRegistryMap.put(longRunningTaskID, lrtr);
     }
+	
+    public static void completeTask(String longRunningTaskID, Exception e) {
+    	Log.logWarning("LongRunningTask "+longRunningTaskID+" completed with exception", LongRunningTaskRegistry.class);
+    	LongRunningTaskResult lrtr = longRunningTaskRegistryMap.get(longRunningTaskID);
+    	lrtr.setDone();
+    	lrtr.setError(e.getClass().getName()+" - "+e.getMessage()+"-"+e.getCause());
+    	longRunningTaskRegistryMap.put(longRunningTaskID, lrtr);
+    }
     
 	public static void scheduleCleanup()  {
 		Runnable task = () -> {
