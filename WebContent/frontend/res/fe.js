@@ -63,6 +63,22 @@ function updateCSRF(data,callback,responseForCallback){
 	}
 }
 
+function waitForLongRunning(data,toCallWhenDone){
+	document.getElementById("loading").style.display="";
+	var longRunningInterval = setInterval(function(){ 
+		document.getElementById("loading").style.display="";
+		doRequest("GET", "../longrunning/"+data.longRunningTaskID, checkIfLongRunningIsDone,[toCallWhenDone,longRunningInterval]);
+	}, 1000);
+}
+
+function checkIfLongRunningIsDone(data,toCallWhenDone,longRunningInterval){
+	if(data.done){
+		killLoader();
+		clearInterval(longRunningInterval);
+		toCallWhenDone(JSON.parse(data.result));
+	}
+}
+
 // ***********
 // * Network *
 // ***********
