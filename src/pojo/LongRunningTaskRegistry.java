@@ -10,8 +10,9 @@ import java.util.concurrent.TimeUnit;
 import helpers.Log;
 import pojo.LongRunningTaskResult;
 
-
 public class LongRunningTaskRegistry {
+	private static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+
     static ConcurrentHashMap<String, LongRunningTaskResult> longRunningTaskRegistryMap = new ConcurrentHashMap<>();
     
     public static LongRunningTaskResult getTaskResult(String longRunningTaskID) {
@@ -20,14 +21,17 @@ public class LongRunningTaskRegistry {
     
     public static void removeTask(String longRunningTaskID) {
     	longRunningTaskRegistryMap.remove(longRunningTaskID);
+    	Log.logInfo("LongRunningTask "+longRunningTaskID+" removed", LongRunningTaskRegistry.class);
     }
     
     public static void registerTask(String longRunningTaskID) {
+    	Log.logInfo("LongRunningTask "+longRunningTaskID+" registered", LongRunningTaskRegistry.class);
     	LongRunningTaskResult lrtr = new LongRunningTaskResult();
     	longRunningTaskRegistryMap.put(longRunningTaskID, lrtr);
     }
     
     public static void completeTask(String longRunningTaskID, String jsonResult) {
+    	Log.logInfo("LongRunningTask "+longRunningTaskID+" completed", LongRunningTaskRegistry.class);
     	LongRunningTaskResult lrtr = longRunningTaskRegistryMap.get(longRunningTaskID);
     	lrtr.setDone();
     	lrtr.setJsonResult(jsonResult);
