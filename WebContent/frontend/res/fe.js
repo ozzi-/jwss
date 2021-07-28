@@ -10,9 +10,9 @@ window.onerror = function(msg, url, line, col, error) {
 	showAlert("Something went wrong","\""+error+"\"","error");
 };
 
-var fullURL = window.location.href;
-if(fullURL.indexOf('frontend//')!==-1){
-	window.location.replace(fullURL.replace("frontend//","frontend/"));
+var path = window.location.pathname;
+if(path.indexOf('//')!==-1){
+	window.location.replace(path.replace('//','/'));
 }
 
 var page = getQueryParams(document.location.search).page;
